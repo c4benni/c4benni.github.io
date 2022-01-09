@@ -33,6 +33,9 @@ export default defineComponent( {
                 title:'TypeScript',
                 icon:'ts'
             },{
+                title: 'Svelte',
+                icon:'svelte'
+            },{
                 title:'VueJs',
                 icon:'vue'
             },{
