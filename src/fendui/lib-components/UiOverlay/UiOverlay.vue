@@ -350,7 +350,7 @@ export default defineComponent({
               ? [
                   "root",
                   [
-                    `${fendui.theme.is}-theme`,
+                    `dark-theme`,
                     fendui.cssUtilsClassList,
                     fendui.breakpoints.classList,
                   ],
