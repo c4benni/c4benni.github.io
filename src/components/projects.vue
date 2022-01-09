@@ -72,11 +72,6 @@ export default {
                     })
                   }
 
-                  if(payload.leaveBottom){
-                    console.log(true, payload.entry);
-                  }
-
-
                   return div({  
                     class:'pseudo header-tracker'
                   },[ ]) 
