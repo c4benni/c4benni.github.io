@@ -173,8 +173,8 @@ export default defineComponent({
       return {
         isIntersecting: data.isIntersecting,
         intersectionRatio: entry.intersectionRatio,
-        leaveTop: !data.isIntersecting && entry.boundingClientRect?.bottom||0 < entry.rootBounds?.top||0,
-        leaveBottom: !data.isIntersecting && entry.boundingClientRect?.top ||0 > entry.rootBounds?.bottom||0,
+        leaveTop: !data.isIntersecting && ((entry.boundingClientRect?.bottom||0) < (entry.rootBounds?.top||0)),
+        leaveBottom: !data.isIntersecting && ((entry.boundingClientRect?.top ||0)> (entry.rootBounds?.bottom||0)),
         entry: {
           boundingClientRect: entry.boundingClientRect,
           intersectionRatio: entry.intersectionRatio,

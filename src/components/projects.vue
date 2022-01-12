@@ -4,11 +4,7 @@ import states from './utils/states';
 
 const section = (d, c) => h("section", d, c);
 const div = (d, c) => h("div", d, c);
-const footer = (d, c) => h("footer", d, c);
-
 const scoping = { "data-ps": "" };
-
-const btn = (d, c) => h(resolveComponent("UiBtn"), d, c);
 
 const projectItem = (d) => h(resolveComponent("ProjectsItem"), d);
 
@@ -34,6 +30,22 @@ export default {
           class: ["root fade-slide-x-appear",{'fill-before': isMobile}],
         },
         [
+          Intersection({},{
+                default: payload => {
+
+                  if(payload.isIntersecting){
+                    states.activeHeaderIndex = 1;
+                  }else if(payload.leaveBottom){
+                    states.activeHeaderIndex = 0;
+                  }else if(payload.leaveTop){
+                    states.activeHeaderIndex = 2;
+                  }
+
+                  return div({  
+                    class:'pseudo header-tracker'
+                  },[ ]) 
+                }
+              }),
           Intersection({
               once: true,
               config:{thresholds:0.2}
@@ -64,21 +76,6 @@ export default {
               class: ["items-wrap"],
             },
             [
-              Intersection({
-                thresholds: [0, 0.25, 0.5, 0.75, 1]
-              },{
-                default: payload => {
-                  if(!payload.inactive){
-                    requestAnimationFrame(()=>{
-                      states.intersections['1'] = payload.isIntersecting
-                    })
-                  }
-
-                  return div({  
-                    class:'pseudo header-tracker'
-                  },[ ]) 
-                }
-              }),
               projectItem({
                 ariaLabel: "Payzone Nigeria",
                 date: "2019",
@@ -151,7 +148,7 @@ export default {
 <style>
 .root[data-ps] {
   padding: var(--qtr-x-gutter) var(--x-gutter);
-  --title-font-size: max(8vw, 124px);
+  --title-font-size: max(8vw, 108px);
   min-height: 100vh;
 }
 

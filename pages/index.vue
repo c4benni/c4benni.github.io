@@ -109,6 +109,22 @@ export default {
             class:['about',{'fill-before': isMobile}],
             id: 'about'
           },[
+              Intersection({},{
+                default: payload => {
+
+                  if(payload.isIntersecting){
+                    states.activeHeaderIndex = 0;
+                  }else if(payload.leaveBottom){
+                    states.activeHeaderIndex = null;
+                  }else if(payload.leaveTop){
+                    states.activeHeaderIndex = 1;
+                  }
+
+                  return div({  
+                    class:'pseudo header-tracker'
+                  },[ ]) 
+                }
+              }),
             Intersection({
               once: true
             },{
@@ -132,21 +148,7 @@ export default {
             div({
                 class:'about-content'
             },[
-              Intersection({
-              },{
-                default: payload => {
-
-                  if(!payload.inactive){
-                    requestAnimationFrame(()=>{
-                      states.intersections['0'] = payload.isIntersecting
-                    })
-                  }
-
-                  return div({  
-                    class:'pseudo header-tracker'
-                  },[ ]) 
-                }
-              }),
+              
               Intersection({once:true, config: {thresholds: 0.2}},{
                 default: payload =>{
                   const reveal = payload.isIntersecting;
@@ -165,7 +167,7 @@ export default {
                             `translate3d(${reveal?'0': '-1rem'},0,0)`,
                           transitionDelay: '100ms'
                       },
-                      src: 'img/about.jpeg',
+                      src: "https://res.cloudinary.com/c4benn/image/upload/q_91/v1641988318/portfolio/about.jpg",
                       alt:'about image'
                     })
                   ])
@@ -290,7 +292,7 @@ export default {
 }
 
 .title {
-  --title-font-size: max(8vw, 124px);
+  --title-font-size: max(8vw, 108px);
 }
 
 .sm-down .title {

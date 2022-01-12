@@ -364,7 +364,9 @@ a {
 }
 
 .header-tracker{
-  height: 25%
+  height: 75%;
+  bottom: 0;
+  top: auto;
 }
 
 .relative{

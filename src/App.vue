@@ -135,7 +135,7 @@ export default {
                   position:'fixed',
                   top:'0',
                   left:'0',
-                  filter:'blur(75px) brightness(0.45)'
+                  filter:'blur(60px) brightness(0.45)'
                 }
               },[
                 h(resolveComponent('UiImg'),{

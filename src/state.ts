@@ -5,7 +5,6 @@ export const greeting = [
   "Bonjour",
   "Kon'nichiwa",
   "Hellur",
-  "How far?",
   "Hallo",
   "Olá",
   "Nnọọ",

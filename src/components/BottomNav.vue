@@ -9,6 +9,7 @@ type VNodeChild = string|number|boolean|VNode<RendererNode, RendererElement, { [
 const nav =  (d: VNodeData, c: VNodeChild) => h('nav', d, c)
 const ul =  (d: VNodeData, c: VNodeChild) => h('ul', d, c)
 const li =  (d: VNodeData, c: VNodeChild) => h('li', d, c)
+const div =  (d: VNodeData, c: VNodeChild) => h('div', d, c)
 const span =  (d: VNodeData, c: VNodeChild) => h('span', d, c)
 
 
@@ -16,6 +17,8 @@ const span =  (d: VNodeData, c: VNodeChild) => h('span', d, c)
 const btn =  (d: VNodeData, c: VNodeChild) => h(resolveComponent('UiBtn'), d, c)
 // @ts-ignore
 const Img =  (d: VNodeData) => h(resolveComponent('UiImg'), d)
+
+import states from "./utils/states";
 
 
 export default defineComponent({
@@ -44,6 +47,7 @@ export default defineComponent({
                 ]
             })
 
+
             return nav({
                 class:'root fill-before'
             },[
@@ -60,7 +64,10 @@ export default defineComponent({
                             btn({
                                 // tag: 'router-link',
                                 class:[{
-                                    active: key == 0
+                                    active: 
+                                        states.activeHeaderIndex === null
+                                            ? key == 0 
+                                        :   key == states.activeHeaderIndex + 1
                                 }]
                             },{
                                 default: ()=>{
@@ -75,6 +82,14 @@ export default defineComponent({
                                                 width: '24px',
                                                 class:'icon'
                                             })
+                                        ]),
+                                        
+                                        div({
+                                            class: 'dot-wrap'
+                                        },[
+                                            span({
+                                                class: 'dot'
+                                            },[])
                                         ])
                                     ]
                                 }
@@ -102,6 +117,7 @@ export default defineComponent({
         border-radius: var(--ui-rounded);
         z-index: 99;
         background-color: rgba(26, 26, 26, 0.9875);
+        --dot-size: 4px;
     }
 
     .root:before{
@@ -140,15 +156,48 @@ export default defineComponent({
         width: 100%;
         border-radius: 0;
         opacity: 0.7;
+        grid-auto-flow: row;
+        justify-items: center;
+        align-items: flex-end;
     }
 
     .icon{
         opacity: .7;
-        transition: opacity 0.25s linear 0.15s;
+        transform: translate3d(0, var(--dot-size), 0);
+        transition: opacity linear, transform linear;
+        transition-delay: .15s;
+        transition-duration: .25s;
+    }
+
+    .dot-wrap{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .dot{
+        border-radius: calc(var(--dot-size) / 2);
+        width: var(--dot-size);
+        height: var(--dot-size);
+        background: currentColor;
+        display: block;
+        opacity: 0;
+        transform: translate3d(0, var(--dot-size), 0);
+        transition: opacity linear, transform linear;
+        transition-delay: .15s;
+        transition-duration: .25s;
     }
 
     .ui-btn.active .icon{
         opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    .ui-btn.active .dot{
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
     }
 
     .ui-btn.active{

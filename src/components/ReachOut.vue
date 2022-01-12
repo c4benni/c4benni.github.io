@@ -60,6 +60,21 @@ export default defineComponent({
                     class: ["root fade-scale-appear"],
                 },
                 [
+                Intersection({},{
+                    default: payload => {
+
+                    if(payload.isIntersecting){
+                        states.activeHeaderIndex = 2;
+                    }else if(payload.leaveBottom){
+                        states.activeHeaderIndex = 1;
+                    }
+
+                    return div({  
+                        class:'pseudo header-tracker'
+                    },[ ]) 
+                    }
+                }),
+
                 Intersection({
                     once: true,
                     config:{thresholds:0.2}
