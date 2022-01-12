@@ -151,7 +151,7 @@ export default {
                         },
                         [
                           img({
-                            src: "asset/img/avatar.jpg",
+                            src: "https://res.cloudinary.com/c4benn/image/upload/q_91/v1641988318/portfolio/about.jpg",
                             alt: "my avatar",
                             height: "500px",
                             loading: "eager",

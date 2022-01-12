@@ -26,6 +26,8 @@ export default {
     return function () {
       const isMobile = /sm|xs|xxs/.test(this.$breakpoints.is)
 
+      const getImgSrc = (project, index) => `https://res.cloudinary.com/c4benn/image/upload/v1641987656/portfolio/projects/${project}/${index}.png`
+
       return section(
         {
           ...scoping,
@@ -84,10 +86,10 @@ export default {
                 subtitle: "Payment gateway for services and comodities",
                 images: [{
                   alt: "image of payzone.ng landing page",
-                  src: "/img/payzone.png",
+                  src: getImgSrc('payzone', '1'),
                 },{
                   alt: "second image of payzone.ng landing page",
-                  src: "/img/payzone_.png",
+                  src: getImgSrc('payzone', '2'),
                 }],
                 to: "https://payzone.ng/",
                 live: true,
@@ -100,10 +102,10 @@ export default {
                 subtitle: "An implementation of a Vending machine with buyer and seller roles",
                 images: [{
                   alt: "image of vending app",
-                  src: "/img/vending.png",
+                  src: getImgSrc('vending', '1'),
                 },{
                   alt: "second image of vending app",
-                  src: "/img/vending_.png",
+                  src: getImgSrc('vending', '2'),
                 }],
                 to: "https://c4benni-vending.herokuapp.com",
               }),
@@ -115,10 +117,10 @@ export default {
                 subtitle: "Bank app mockup",
                 images: [{
                   alt: "image of minna bank landing page",
-                  src: "/img/minna.png",
+                  src: getImgSrc('minna', '1'),
                 },{
                   alt: "second image of minna bank landing page",
-                  src: "/img/minna_.png",
+                  src: getImgSrc('minna', '2'),
                 }],
                 to: "https://c4benni.github.io/minna/",
               }),
@@ -130,10 +132,10 @@ export default {
                 subtitle: "A food recipe app.",
                 images: [{
                   alt: "image of nina recipe",
-                  src: "/img/nina.png",
+                  src: getImgSrc('nina', '1'),
                 },{
                   alt: "second image of nina recipe",
-                  src: "/img/nina_.png",
+                  src: getImgSrc('nina', '2'),
                 }],
                 to: "https://c4benni.github.io/nina/",
               }),
