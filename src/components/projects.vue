@@ -76,7 +76,7 @@ export default {
               class: ["items-wrap"],
             },
             [
-              projectItem({
+             /** projectItem({
                 ariaLabel: "Payzone Nigeria",
                 date: "2019",
                 title: "Payzone.ng",
@@ -90,7 +90,7 @@ export default {
                 }],
                 to: "https://payzone.ng/",
                 live: true,
-              }),
+              }), **/
 
               projectItem({
                 ariaLabel: "Vending app",
