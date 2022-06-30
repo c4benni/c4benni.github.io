@@ -1,6 +1,6 @@
 <script>
 import { h, resolveComponent } from "@vue/runtime-core";
-import states from './utils/states';
+import states from "./utils/states";
 
 const section = (d, c) => h("section", d, c);
 const div = (d, c) => h("div", d, c);
@@ -8,8 +8,7 @@ const scoping = { "data-ps": "" };
 
 const projectItem = (d) => h(resolveComponent("ProjectsItem"), d);
 
-const Intersection = (d, c)=> h(resolveComponent('UiIntersection'),d,c)
-
+const Intersection = (d, c) => h(resolveComponent("UiIntersection"), d, c);
 
 const h2 = (d, c) => h("h2", d, c);
 
@@ -20,55 +19,73 @@ export default {
   },
   setup() {
     return function () {
-      const isMobile = /sm|xs|xxs/.test(this.$breakpoints.is)
+      const isMobile = /sm|xs|xxs/.test(this.$breakpoints.is);
 
-      const getImgSrc = (project, index) => `https://res.cloudinary.com/c4benn/image/upload/v1641987656/portfolio/projects/${project}/${index}.png`
+      const getImgSrc = (project, index) =>
+        `https://res.cloudinary.com/c4benn/image/upload/v1641987656/portfolio/projects/${project}/${index}.png`;
 
       return section(
         {
+          id: "projects",
           ...scoping,
-          class: ["root fade-slide-x-appear",{'fill-before': isMobile}],
+          class: ["root fade-slide-x-appear", { "fill-before": isMobile }],
         },
         [
-          Intersection({},{
-                default: payload => {
-
-                  if(payload.isIntersecting){
-                    states.activeHeaderIndex = 1;
-                  }else if(payload.leaveBottom){
-                    states.activeHeaderIndex = 0;
-                  }else if(payload.leaveTop){
-                    states.activeHeaderIndex = 2;
-                  }
-
-                  return div({  
-                    class:'pseudo header-tracker'
-                  },[ ]) 
+          Intersection(
+            {},
+            {
+              default: (payload) => {
+                if (payload.isIntersecting) {
+                  states.activeHeaderIndex = 1;
+                } else if (payload.leaveBottom) {
+                  states.activeHeaderIndex = 0;
+                } else if (payload.leaveTop) {
+                  states.activeHeaderIndex = 2;
                 }
-              }),
-          Intersection({
+
+                return div(
+                  {
+                    class: "pseudo header-tracker",
+                  },
+                  []
+                );
+              },
+            }
+          ),
+          Intersection(
+            {
               once: true,
-              config:{thresholds:0.2}
-            },{
-              default: payload => {
+              config: { thresholds: 0.2 },
+            },
+            {
+              default: (payload) => {
                 const reveal = payload.isIntersecting;
 
-                return h2({  
-                  ...scoping,
-                  class:'reveal-wrap relative'
-                },[
-                  
-                  div({
+                return h2(
+                  {
                     ...scoping,
-                    class:'reveal gradient-text title app-title truncate-text',
-                    style: {
-                      opacity: reveal ? '1' : '0',
-                      transform: `translate3d(0,${reveal?'0': '.5rem'},0)`
-                    }
-                  },['Projects.'])
-                ]) 
-              }
-          }),
+                    class: "reveal-wrap relative",
+                  },
+                  [
+                    div(
+                      {
+                        ...scoping,
+                        class:
+                          "reveal gradient-text title app-title truncate-text",
+                        style: {
+                          opacity: reveal ? "1" : "0",
+                          transform: `translate3d(0,${
+                            reveal ? "0" : ".5rem"
+                          },0)`,
+                        },
+                      },
+                      ["Projects."]
+                    ),
+                  ]
+                );
+              },
+            }
+          ),
 
           div(
             {
@@ -76,7 +93,7 @@ export default {
               class: ["items-wrap"],
             },
             [
-             /** projectItem({
+              /** projectItem({
                 ariaLabel: "Payzone Nigeria",
                 date: "2019",
                 title: "Payzone.ng",
@@ -96,14 +113,18 @@ export default {
                 ariaLabel: "Vending app",
                 date: "2021",
                 title: "Vending app",
-                subtitle: "An implementation of a Vending machine with buyer and seller roles",
-                images: [{
-                  alt: "image of vending app",
-                  src: getImgSrc('vending', '1'),
-                },{
-                  alt: "second image of vending app",
-                  src: getImgSrc('vending', '2'),
-                }],
+                subtitle:
+                  "An implementation of a Vending machine with buyer and seller roles",
+                images: [
+                  {
+                    alt: "image of vending app",
+                    src: getImgSrc("vending", "1"),
+                  },
+                  {
+                    alt: "second image of vending app",
+                    src: getImgSrc("vending", "2"),
+                  },
+                ],
                 to: "https://c4benni-vending.herokuapp.com",
               }),
 
@@ -112,13 +133,16 @@ export default {
                 date: "2021",
                 title: "Bank App UI",
                 subtitle: "Bank app mockup",
-                images: [{
-                  alt: "image of minna bank landing page",
-                  src: getImgSrc('minna', '1'),
-                },{
-                  alt: "second image of minna bank landing page",
-                  src: getImgSrc('minna', '2'),
-                }],
+                images: [
+                  {
+                    alt: "image of minna bank landing page",
+                    src: getImgSrc("minna", "1"),
+                  },
+                  {
+                    alt: "second image of minna bank landing page",
+                    src: getImgSrc("minna", "2"),
+                  },
+                ],
                 to: "https://c4benni.github.io/minna/",
               }),
 
@@ -127,13 +151,16 @@ export default {
                 date: "2021",
                 title: "Food Recipes",
                 subtitle: "A food recipe app.",
-                images: [{
-                  alt: "image of nina recipe",
-                  src: getImgSrc('nina', '1'),
-                },{
-                  alt: "second image of nina recipe",
-                  src: getImgSrc('nina', '2'),
-                }],
+                images: [
+                  {
+                    alt: "image of nina recipe",
+                    src: getImgSrc("nina", "1"),
+                  },
+                  {
+                    alt: "second image of nina recipe",
+                    src: getImgSrc("nina", "2"),
+                  },
+                ],
                 to: "https://c4benni.github.io/nina/",
               }),
             ]
@@ -180,7 +207,7 @@ export default {
   position: relative;
 }
 
-.md-up .items-wrap[data-ps]{
+.md-up .items-wrap[data-ps] {
   grid-template-columns: 50% 50%;
   column-gap: var(--x-gutter);
 }

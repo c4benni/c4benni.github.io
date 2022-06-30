@@ -1,37 +1,58 @@
-<script lang='ts'>
-import {defineComponent, h, reactive, RendererElement, RendererNode, resolveComponent, VNode, VNodeArrayChildren, VNodeProps} from 'vue'
+<script lang="ts">
+import {
+  defineComponent,
+  h,
+  reactive,
+  RendererElement,
+  RendererNode,
+  resolveComponent,
+  VNode,
+  VNodeArrayChildren,
+  VNodeProps,
+} from "vue";
 
 import { postMessage } from "./api";
 import { Checked } from "./utils/functional";
 import { UiIcon } from "./utils/icons";
 import states from "./utils/states";
 
-type VNodeData =  VNodeProps&{ __v_isVNode?: never;[Symbol.iterator]?: never; }&Record<string, any>
+type VNodeData = VNodeProps & {
+  __v_isVNode?: never;
+  [Symbol.iterator]?: never;
+} & Record<string, any>;
 
-type VNodeChild = string|number|boolean|VNode<RendererNode, RendererElement, { [key: string]: any; }>|VNodeArrayChildren|(() => any)|{ [name: string]: unknown; $stable?: boolean; }
+type VNodeChild =
+  | string
+  | number
+  | boolean
+  | VNode<RendererNode, RendererElement, { [key: string]: any }>
+  | VNodeArrayChildren
+  | (() => any)
+  | { [name: string]: unknown; $stable?: boolean };
 
 type IntersectionPayload = {
-    isIntersecting: boolean
-}
+  isIntersecting: boolean;
+};
 
-const section =  (d: VNodeData, c: VNodeChild) => h('section', d, c)
+const section = (d: VNodeData, c: VNodeChild) => h("section", d, c);
 
-const div =  (d: VNodeData, c: VNodeChild) => h('div', d, c)
-const em =  (d: VNodeData, c: VNodeChild) => h('em', d, c)
-
-
-// @ts-ignore
-const form = (d: VNodeData, c: VNodeChild) => h(resolveComponent("UiForm"), d, c);
-
+const div = (d: VNodeData, c: VNodeChild) => h("div", d, c);
+const em = (d: VNodeData, c: VNodeChild) => h("em", d, c);
 
 // @ts-ignore
-const Intersection = (d: VNodeData, c: VNodeChild) => h(resolveComponent("UiIntersection"), d, c);
+const form = (d: VNodeData, c: VNodeChild) =>
+  h(resolveComponent("UiForm"), d, c);
+
+// @ts-ignore
+const Intersection = (d: VNodeData, c: VNodeChild) =>
+  h(resolveComponent("UiIntersection"), d, c);
 // @ts-ignore
 const btn = (d: VNodeData, c: VNodeChild) => h(resolveComponent("UiBtn"), d, c);
 // @ts-ignore
 const input = (d: VNodeData) => h(resolveComponent("UiInput"), d);
 // @ts-ignore
-const sheet = (d: VNodeData, c: VNodeChild) => h(resolveComponent("UiSheet"), d, c);
+const sheet = (d: VNodeData, c: VNodeChild) =>
+  h(resolveComponent("UiSheet"), d, c);
 
 const h2 = (d: VNodeData, c: VNodeChild) => h("h2", d, c);
 const h3 = (d: VNodeData, c: VNodeChild) => h("h3", d, c);
@@ -39,388 +60,403 @@ const h3 = (d: VNodeData, c: VNodeChild) => h("h3", d, c);
 const br = h("br");
 
 export default defineComponent({
-    name: 'ReachOut',
+  name: "ReachOut",
 
-    setup(){
-        const data = reactive({
-            name: "",
-            email: "",
-            message: "",
-            postingMessage: false,
-            error: null,
-            errorTitle: 
-                ["Oops!", "An error occured"][Math.floor(Math.random() * 2)],
-        });
+  setup() {
+    const data = reactive({
+      name: "",
+      email: "",
+      message: "",
+      postingMessage: false,
+      error: null,
+      errorTitle: ["Oops!", "An error occured"][Math.floor(Math.random() * 2)],
+    });
 
-        return function () {
-            const isMobile = /sm|xs|xxs/.test(this.$breakpoints.is)
+    return function () {
+      const isMobile = /sm|xs|xxs/.test(this.$breakpoints.is);
 
-            return section(
+      return section(
+        {
+          id: "contact",
+          class: ["root fade-scale-appear"],
+        },
+        [
+          Intersection(
+            {},
+            {
+              default: (payload) => {
+                if (payload.isIntersecting) {
+                  states.activeHeaderIndex = 2;
+                } else if (payload.leaveBottom) {
+                  states.activeHeaderIndex = 1;
+                }
+
+                return div(
+                  {
+                    class: "pseudo header-tracker",
+                  },
+                  []
+                );
+              },
+            }
+          ),
+
+          Intersection(
+            {
+              once: true,
+              config: { thresholds: 0.2 },
+            },
+            {
+              default: (payload: IntersectionPayload) => {
+                const reveal = payload.isIntersecting;
+
+                return h2(
+                  {
+                    class: "reveal-wrap",
+                  },
+                  [
+                    div(
+                      {
+                        class: "reveal gradient-text title app-title",
+                        style: {
+                          opacity: reveal ? "1" : "0",
+                          transform: `translate3d(0,${
+                            reveal ? "0" : ".5rem"
+                          },0)`,
+                        },
+                      },
+                      ["Hi there!"]
+                    ),
+                  ]
+                );
+              },
+            }
+          ),
+
+          div(
+            {
+              class: [
+                "main",
                 {
-                    class: ["root fade-scale-appear"],
+                  "fill-after": /sm|xs|xxs/.test(this.$breakpoints.is),
+                },
+              ],
+            },
+            [
+              h3(
+                {
+                  class: "subtitle",
                 },
                 [
-                Intersection({},{
-                    default: payload => {
-
-                    if(payload.isIntersecting){
-                        states.activeHeaderIndex = 2;
-                    }else if(payload.leaveBottom){
-                        states.activeHeaderIndex = 1;
-                    }
-
-                    return div({  
-                        class:'pseudo header-tracker'
-                    },[ ]) 
-                    }
-                }),
-
-                Intersection({
-                    once: true,
-                    config:{thresholds:0.2}
-                    },
-                    {
-                        default: (payload: IntersectionPayload) => {
-                        const reveal = payload.isIntersecting;
-
-                        return h2({  
-                            class:'reveal-wrap'
-                        },[
-                            div({
-                                class:'reveal gradient-text title app-title',
-                                style: {
-                                    opacity: reveal ? '1' : '0',
-                                    transform: `translate3d(0,${reveal?'0': '.5rem'},0)`
-                                }
-                            },['Hi there!'])
-                        ]) 
-                    }
-                }),
-
-                div(
-                    {
-                    class: [
-                        "main",
-                        {
-                            "fill-after": /sm|xs|xxs/.test(this.$breakpoints.is)
-                        },
-                    ],
-                    },
-                    [
-                    h3(
-                        {
-                            class: "subtitle",
-                        },
-                        [
-                            "Feel free to reach out if you want us to work together,",
-                               !isMobile ? br : ' ',
-                            "or if you just wanna say Hi! 👋",
-                        ]
-                    ),
-
-                    div(
-                        {
-                            class: ["socials-wrap"],
-                        },
-                        [
-                        [
-                            {
-                                text: "Send a DM",
-                                icon: "twitter",
-                                title: "message me on twitter",
-                                href: "https://twitter.com/messages/compose?recipient_id=822332088&text=Hi!",
-                            },
-                            {
-                                text: "Send an Email",
-                                icon: "email",
-                                href: `mailto:c4benni@gmail.com`,
-                            },
-                        ].map((item, key) => {
-                            return btn(
-                            {
-                                key: key + "social-icon",
-                                class: ["dm"],
-                                tag: "a",
-                                href: item.href,
-                                target: "_blank",
-                                rel: "noopener noreferrer",
-                                title: (item.title || item.text).toLowerCase(),
-                            },
-                            {
-                                default: () => {
-                                return [
-                                    div(
-                                    {
-                                        class: ["social-icon-wrap", item.icon],
-                                    },
-                                    [
-                                        UiIcon({
-                                            icon: item.icon,
-                                        }),
-                                    ]
-                                    ),
-                                    item.text,
-                                ];
-                                },
-                            }
-                            );
-                        }),
-                        ]
-                    ),
-
-                    div({
-                        class: 'divide-wrap'
-                    },[
-                        em({ class: "divide" }, "OR")
-                    ]),
-
-                    form(
-                        {
-                            name: "send-message",
-                            action: ".",
-                            class: ["form fill-before"],
-                            showSubmit: false,
-                            "onSubmit-clicked": () => {
-                                data.message = (data.message || "").trim();
-                                data.name = data.name.trim();
-                                data.email = data.email.trim();
-
-                                data.error = false;
-                            },
-                            "onSubmit-form": async () => {
-                                data.postingMessage = true;
-
-                                const request = await postMessage({
-                                name: data.name,
-                                email: data.email,
-                                message: data.message,
-                                });
-
-                                data.error = request.error;
-
-                                data.postingMessage = false;
-
-                                request.data && (data.message = undefined);
-
-                                states.showSuccess = true;
-                            },
-                        },
-                        {
-                            default: () => {
-                            return [
-                                div({class:'form-image-blur-wrap'},
-                                [
-                                    div({
-                                        class:'form-image-blur'
-                                    },[])
-                                ]),
-                                h2({
-                                    class: 'form-title'
-                                },[
-                                    'Send a message'
-                                ]),
-                            [
-                                {
-                                    label: `Name${data.name ? "" : "*"}`,
-                                    autocomplete: "name",
-                                    pattern: "^.{2,99}$",
-                                    placeholder:'Sade Adu',
-                                    validate: (i: string) => {
-                                        const e = i.trim();
-                                        if (!e) {
-                                            return "Required";
-                                        }
-
-                                        if ((e?.length || 0) < 2) {
-                                            return "Min length is 2";
-                                        }
-
-                                        if ((e?.length || 0) > 99) {
-                                            return "Max length is 99";
-                                        }
-
-                                        return true;
-                                },
-                                },
-                                {
-                                    label: `Email${data.email ? "" : "*"}`,
-                                    autocomplete: "email",
-                                    type: "email",
-                                    placeholder:'example@domain',
-                                    pattern:
-                                        "^\\s*?[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\\s*?$",
-                                    validate: (e: string) => {
-                                        const value = e?.trim();
-                                        const validEmail =
-                                            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
-                                        
-                                        if (!value.length) {
-                                            return "Required";
-                                        }
-                                        if (!validEmail) {
-                                            return "Invalid format";
-                                        }
-                                        if ((e?.length || 0) > 320) {
-                                            return "Max length is 320";
-                                        }
-                                        return true;
-                                },
-                                },
-                                {
-                                    label: `Message${data.message ? "" : "*"}`,
-                                    path: "message",
-                                    pattern: ".{10,}",
-                                    type: "textarea",
-                                    placeholder: 'At least 10 characters',
-                                    validate: (i: string) => {
-                                        if (typeof data.message == "string") {
-                                            const e = i.trim();
-
-                                            if (!e) {
-                                                return "Required";
-                                            }
-
-                                            if ((e?.length || 0) < 10) {
-                                                return "Min length is 10";
-                                            }
-
-                                            return true;
-                                        }
-
-                                        return true;
-                                    },
-                                },
-                            ].map((item, key) => {
-                                const path = item.path || item.autocomplete;
-
-                                return input({
-                                    key: key + "input",
-                                    label: item.label,
-                                    modelValue: data[path],
-                                    "onUpdate:modelValue": (e: string) => {
-                                        data[path] = e;
-                                        data.message = data.message || "";
-                                    },
-                                    pattern: item.pattern,
-                                    validate: item.validate,
-                                    placeholder: item.placeholder,
-                                    type: item.type,
-                                });
-                            }),
-                            ];
-                        },
-
-                        append: ({ submit }) => {
-                            return sheet(
-                            {
-                                modelValue: states.showSuccess,
-                                "onUpdate:modelValue": (e: boolean) => {
-                                    states.showSuccess = e;
-                                },
-                            },
-                            {
-                                default: ({ close }) => {
-                                return div(
-                                    {},
-                                    [
-                                    [
-                                        data.error
-                                        ? UiIcon({
-                                            icon: "windowClose",
-                                            size: "96px",
-                                            data: {
-                                                class: "close-icon",
-                                            },
-                                          })
-                                        : Checked(),
-
-                                        h2(
-                                        {
-                                            class: ["sheet-title"],
-                                        },
-                                        [
-                                            data.error
-                                            ? data.errorTitle
-                                            : "Message sent!",
-                                        ]
-                                        ),
-                                        h3(
-                                        {
-                                            class: ["sheet-subtitle"],
-                                        },
-                                        [
-                                            data.error
-                                            ? data.error?.message ||
-                                                "An error occured"
-                                            : [
-                                                "Thanks for reaching out!",
-                                                br,
-                                                `I'll send a reply to your email within 24 hours.`,
-                                                ],
-                                        ]
-                                        ),
-
-                                        btn(
-                                        {
-                                            class: ["sheet-action primary"],
-                                            onClick: close,
-                                        },
-                                        {
-                                            default: () => {
-                                            return "Close";
-                                            },
-                                        }
-                                        ),
-                                    ],
-                                    ]
-                                );
-                                },
-                                activator: () => {
-                                return btn(
-                                    {
-                                    class: "send",
-                                    title: "send message",
-                                        onClick: submit,
-                                    },
-                                    {
-                                    default: () => [
-                                        UiIcon({
-                                        icon: "send",
-                                        }),
-                                        "Send message",
-                                        data.postingMessage
-                                        ? div(
-                                            {
-                                                class: [
-                                                    "submit-loading-wrap fade-slide-x-appear",
-                                                ],
-                                            },
-                                            [
-                                                div({
-                                                    class: ["spinner-border"],
-                                                },[]),
-                                                "Sending message",
-                                            ]
-                                            )
-                                        : null,
-                                    ],
-                                    }
-                                );
-                                },
-                            }
-                            );
-                        },
-                        }
-                    ),
-                    ]
-                ),
+                  "Feel free to reach out if you want us to work together,",
+                  !isMobile ? br : " ",
+                  "or if you just wanna say Hi! 👋",
                 ]
-            );
-            };
-    }
-})
-</script>
+              ),
 
+              div(
+                {
+                  class: ["socials-wrap"],
+                },
+                [
+                  [
+                    {
+                      text: "Send a DM",
+                      icon: "twitter",
+                      title: "message me on twitter",
+                      href: "https://twitter.com/messages/compose?recipient_id=822332088&text=Hi!",
+                    },
+                    {
+                      text: "Send an Email",
+                      icon: "email",
+                      href: `mailto:c4benni@gmail.com`,
+                    },
+                  ].map((item, key) => {
+                    return btn(
+                      {
+                        key: key + "social-icon",
+                        class: ["dm"],
+                        tag: "a",
+                        href: item.href,
+                        target: "_blank",
+                        rel: "noopener noreferrer",
+                        title: (item.title || item.text).toLowerCase(),
+                      },
+                      {
+                        default: () => {
+                          return [
+                            div(
+                              {
+                                class: ["social-icon-wrap", item.icon],
+                              },
+                              [
+                                UiIcon({
+                                  icon: item.icon,
+                                }),
+                              ]
+                            ),
+                            item.text,
+                          ];
+                        },
+                      }
+                    );
+                  }),
+                ]
+              ),
+
+              div(
+                {
+                  class: "divide-wrap",
+                },
+                [em({ class: "divide" }, "OR")]
+              ),
+
+              form(
+                {
+                  name: "send-message",
+                  action: ".",
+                  class: ["form fill-before"],
+                  showSubmit: false,
+                  "onSubmit-clicked": () => {
+                    data.message = (data.message || "").trim();
+                    data.name = data.name.trim();
+                    data.email = data.email.trim();
+
+                    data.error = false;
+                  },
+                  "onSubmit-form": async () => {
+                    data.postingMessage = true;
+
+                    const request = await postMessage({
+                      name: data.name,
+                      email: data.email,
+                      message: data.message,
+                    });
+
+                    data.error = request.error;
+
+                    data.postingMessage = false;
+
+                    request.data && (data.message = undefined);
+
+                    states.showSuccess = true;
+                  },
+                },
+                {
+                  default: () => {
+                    return [
+                      div({ class: "form-image-blur-wrap" }, [
+                        div(
+                          {
+                            class: "form-image-blur",
+                          },
+                          []
+                        ),
+                      ]),
+                      h2(
+                        {
+                          class: "form-title",
+                        },
+                        ["Send a message"]
+                      ),
+                      [
+                        {
+                          label: `Name${data.name ? "" : "*"}`,
+                          autocomplete: "name",
+                          pattern: "^.{2,99}$",
+                          placeholder: "Sade Adu",
+                          validate: (i: string) => {
+                            const e = i.trim();
+                            if (!e) {
+                              return "Required";
+                            }
+
+                            if ((e?.length || 0) < 2) {
+                              return "Min length is 2";
+                            }
+
+                            if ((e?.length || 0) > 99) {
+                              return "Max length is 99";
+                            }
+
+                            return true;
+                          },
+                        },
+                        {
+                          label: `Email${data.email ? "" : "*"}`,
+                          autocomplete: "email",
+                          type: "email",
+                          placeholder: "example@domain",
+                          pattern:
+                            "^\\s*?[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\\s*?$",
+                          validate: (e: string) => {
+                            const value = e?.trim();
+                            const validEmail =
+                              /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+                                value
+                              );
+
+                            if (!value.length) {
+                              return "Required";
+                            }
+                            if (!validEmail) {
+                              return "Invalid format";
+                            }
+                            if ((e?.length || 0) > 320) {
+                              return "Max length is 320";
+                            }
+                            return true;
+                          },
+                        },
+                        {
+                          label: `Message${data.message ? "" : "*"}`,
+                          path: "message",
+                          pattern: ".{10,}",
+                          type: "textarea",
+                          placeholder: "At least 10 characters",
+                          validate: (i: string) => {
+                            if (typeof data.message == "string") {
+                              const e = i.trim();
+
+                              if (!e) {
+                                return "Required";
+                              }
+
+                              if ((e?.length || 0) < 10) {
+                                return "Min length is 10";
+                              }
+
+                              return true;
+                            }
+
+                            return true;
+                          },
+                        },
+                      ].map((item, key) => {
+                        const path = item.path || item.autocomplete;
+
+                        return input({
+                          key: key + "input",
+                          label: item.label,
+                          modelValue: data[path],
+                          "onUpdate:modelValue": (e: string) => {
+                            data[path] = e;
+                            data.message = data.message || "";
+                          },
+                          pattern: item.pattern,
+                          validate: item.validate,
+                          placeholder: item.placeholder,
+                          type: item.type,
+                        });
+                      }),
+                    ];
+                  },
+
+                  append: ({ submit }) => {
+                    return sheet(
+                      {
+                        modelValue: states.showSuccess,
+                        "onUpdate:modelValue": (e: boolean) => {
+                          states.showSuccess = e;
+                        },
+                      },
+                      {
+                        default: ({ close }) => {
+                          return div({}, [
+                            [
+                              data.error
+                                ? UiIcon({
+                                    icon: "windowClose",
+                                    size: "96px",
+                                    data: {
+                                      class: "close-icon",
+                                    },
+                                  })
+                                : Checked(),
+
+                              h2(
+                                {
+                                  class: ["sheet-title"],
+                                },
+                                [data.error ? data.errorTitle : "Message sent!"]
+                              ),
+                              h3(
+                                {
+                                  class: ["sheet-subtitle"],
+                                },
+                                [
+                                  data.error
+                                    ? data.error?.message || "An error occured"
+                                    : [
+                                        "Thanks for reaching out!",
+                                        br,
+                                        `I'll send a reply to your email within 24 hours.`,
+                                      ],
+                                ]
+                              ),
+
+                              btn(
+                                {
+                                  class: ["sheet-action primary"],
+                                  onClick: close,
+                                },
+                                {
+                                  default: () => {
+                                    return "Close";
+                                  },
+                                }
+                              ),
+                            ],
+                          ]);
+                        },
+                        activator: () => {
+                          return btn(
+                            {
+                              class: "send",
+                              title: "send message",
+                              onClick: submit,
+                            },
+                            {
+                              default: () => [
+                                UiIcon({
+                                  icon: "send",
+                                }),
+                                "Send message",
+                                data.postingMessage
+                                  ? div(
+                                      {
+                                        class: [
+                                          "submit-loading-wrap fade-slide-x-appear",
+                                        ],
+                                      },
+                                      [
+                                        div(
+                                          {
+                                            class: ["spinner-border"],
+                                          },
+                                          []
+                                        ),
+                                        "Sending message",
+                                      ]
+                                    )
+                                  : null,
+                              ],
+                            }
+                          );
+                        },
+                      }
+                    );
+                  },
+                }
+              ),
+            ]
+          ),
+        ]
+      );
+    };
+  },
+});
+</script>
 
 <style scoped>
 .root:not([data-uit]) {
@@ -453,7 +489,7 @@ export default defineComponent({
   color: var(--subtitle-c);
 }
 
-.sm-down .subtitle{
+.sm-down .subtitle {
   font-size: 1.1rem;
   max-width: 80%;
 }
@@ -474,7 +510,7 @@ export default defineComponent({
   padding: 0.75rem;
   border-radius: 1rem;
   color: #fff;
-  margin-bottom: .25rem;
+  margin-bottom: 0.25rem;
 }
 
 .social-icon-wrap.twitter {
@@ -502,33 +538,33 @@ export default defineComponent({
   color: var(--subtitle-c);
 }
 
-.divide-wrap{
-    position: relative;
-    height: 24px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.divide-wrap {
+  position: relative;
+  height: 24px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .sm-up .divide-wrap::before,
-.sm-up .divide-wrap::after{
-    content: '';
-    width: 10%;
-    height: 100%;
-    display: block;
-    background-image: linear-gradient(var(--linear-dir), #000, #00000000);
-    z-index: 1;
-    pointer-events: auto;
+.sm-up .divide-wrap::after {
+  content: "";
+  width: 10%;
+  height: 100%;
+  display: block;
+  background-image: linear-gradient(var(--linear-dir), #000, #00000000);
+  z-index: 1;
+  pointer-events: auto;
 }
 
-.divide-wrap::before{
-    --linear-dir: to right;
+.divide-wrap::before {
+  --linear-dir: to right;
 }
 
-.divide-wrap::after{
-    --linear-dir: to left;
-} 
+.divide-wrap::after {
+  --linear-dir: to left;
+}
 
 .divide {
   display: grid;
@@ -561,13 +597,13 @@ export default defineComponent({
   position: relative;
 }
 
-.form::before{
-    border: .75px solid currentColor;
-    opacity: .1;
+.form::before {
+  border: 0.75px solid currentColor;
+  opacity: 0.1;
 }
 
 .form-image-blur-wrap,
-.form-image-blur{
+.form-image-blur {
   position: absolute;
   left: 0;
   top: 0;
@@ -575,29 +611,28 @@ export default defineComponent({
   width: 100%;
 }
 
-.form-image-blur-wrap{
+.form-image-blur-wrap {
   z-index: -1;
   overflow: hidden;
   isolation: isolate;
   opacity: 0;
-  transition: .5s opacity;
+  transition: 0.5s opacity;
   border-radius: inherit;
 }
 
-@media (pointer: fine) and (hover: hover){
-    
-    .form:hover .form-image-blur-wrap{
-        opacity: 1;
-    }
+@media (pointer: fine) and (hover: hover) {
+  .form:hover .form-image-blur-wrap {
+    opacity: 1;
+  }
 
-    .md-up .form-image-blur{
-        filter: blur(100px) saturate(2);
-        background-image: url("https://res.cloudinary.com/c4benn/image/upload/v1641483094/portfolio/sunset4_yc3q0v.jpg");
-    }
+  .md-up .form-image-blur {
+    filter: blur(100px) saturate(2);
+    background-image: url("https://res.cloudinary.com/c4benn/image/upload/v1641483094/portfolio/sunset4_yc3q0v.jpg");
+  }
 }
 
-.form-title{
-    margin-bottom: 1rem;
+.form-title {
+  margin-bottom: 1rem;
 }
 
 .form > .root[data-uit] {
@@ -656,7 +691,7 @@ export default defineComponent({
   font-size: 38px;
   font-weight: 800;
   color: var(--title-c);
-  margin: 1rem auto .5rem;
+  margin: 1rem auto 0.5rem;
 }
 
 .sm-down .sheet-title {

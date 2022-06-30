@@ -24,7 +24,7 @@ export default {
   setup() {
     const data = reactive({
       tooltip: false,
-      filled:false,
+      filled: false,
     });
     const route = useRoute();
 
@@ -42,38 +42,46 @@ export default {
 
       sleepId = this._.uid + "header";
 
+      const routeHash = this.$route.hash;
+
       const links = () =>
         [
           {
             title: "About",
-            active: /^\/about\/?/.test(this.$route.path),
             underlineWidth: "7ch",
             underlineEndPoint: isMobile ? "72" : "42.5",
-            to: "/about/",
             class: "about",
+            hash: "#about",
+            get active() {
+              return routeHash === this.hash;
+            },
           },
           {
             title: "Projects",
-            active: /^\/projects\/?/.test(this.$route.path),
             underlineWidth: "9ch",
             underlineEndPoint: isMobile ? "90" : "60",
-            to: "/projects/",
             class: "projects",
+            hash: "#projects",
+            get active() {
+              return routeHash === this.hash;
+            },
           },
           {
             title: "Reach out",
-            active: /^\/reach-out\/?/.test(this.$route.path),
             underlineWidth: "9ch",
             underlineEndPoint: isMobile ? "110" : "70",
-            to: "/reach-out/",
             class: "reach-out",
+            hash: "#contact",
+            get active() {
+              return routeHash === this.hash;
+            },
           },
         ].map((item, key) => {
           return btn(
             {
               key: key + "link",
-              to: item.to,
               ...scoping,
+              to: `/${item.hash}`,
               class: [
                 "link",
                 {
@@ -87,7 +95,18 @@ export default {
                 opacity: 0.1,
               },
               onClick: () => {
-                nextAnimFrame(() => (states.mobileMenu = false));
+                nextAnimFrame(() => {
+                  states.mobileMenu = false;
+
+                  const h2 = document.querySelector(`${item.hash} > h2`);
+
+                  if (h2) {
+                    window.scrollTo({
+                      top: h2.getBoundingClientRect().top - 56 + scrollY,
+                      behavior: "smooth",
+                    });
+                  }
+                });
               },
             },
             {
@@ -138,20 +157,24 @@ export default {
             "root fill-before",
             {
               "menu-active": states.mobileMenu,
-              filled: isMobile || data.filled
+              filled: isMobile || data.filled,
             },
           ],
         },
         [
-          h(resolveComponent('UiIntersection'),{},{
-            default:(p)=>{
-              data.filled = !p.isIntersecting
-              return h('div',{
-                ...scoping,
-                class:'pseudo fill-obs',
-              })
+          h(
+            resolveComponent("UiIntersection"),
+            {},
+            {
+              default: (p) => {
+                data.filled = !p.isIntersecting;
+                return h("div", {
+                  ...scoping,
+                  class: "pseudo fill-obs",
+                });
+              },
             }
-          }),
+          ),
           div(
             {
               ...scoping,
@@ -182,30 +205,33 @@ export default {
                       // themeBtn,
                     ]
                   : [
-                      div({
-                        class: 'socials'
-                      },[
-                        states.socials.map((item, key) => {
-                          return btn(
-                            {
-                              key: key + "footer",
-                              class: ["socials-link"],
-                              tag: "a",
-                              href: item.href,
-                              rel: "noopener noreferrer",
-                              target: "_blank",
-                              title: item.title,
-                            },
-                            {
-                              default: () =>
-                                UiIcon({
-                                  icon: item.icon,
-                                  size: 20
-                                }),
-                            }
-                          );
-                        })
-                      ])
+                      div(
+                        {
+                          class: "socials",
+                        },
+                        [
+                          states.socials.map((item, key) => {
+                            return btn(
+                              {
+                                key: key + "footer",
+                                class: ["socials-link"],
+                                tag: "a",
+                                href: item.href,
+                                rel: "noopener noreferrer",
+                                target: "_blank",
+                                title: item.title,
+                              },
+                              {
+                                default: () =>
+                                  UiIcon({
+                                    icon: item.icon,
+                                    size: 20,
+                                  }),
+                              }
+                            );
+                          }),
+                        ]
+                      ),
                       // themeBtn,
 
                       // modal(
@@ -291,13 +317,13 @@ export default {
   position: relative;
 }
 
-.md-up .root[data-ahr]{
+.md-up .root[data-ahr] {
   position: sticky;
   top: 0;
   z-index: 3;
 }
 
-.fill-obs[data-ahr]{
+.fill-obs[data-ahr] {
   height: 2px;
   top: -4px;
 }
@@ -317,29 +343,28 @@ export default {
   padding-right: 0;
 }
 
-.theme-btn[data-ahr]{
+.theme-btn[data-ahr] {
   height: 38px;
-  width:38px
+  width: 38px;
 }
 
 .root[data-ahr].filled {
   background-image: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0.85));
-    /* backdrop-filter: var(--header-backdrop-filter); */
+  /* backdrop-filter: var(--header-backdrop-filter); */
 }
-
 
 .root[data-ahr]::before {
   border-bottom: 0.5px solid;
   opacity: 0;
-  transform: scale3d(0,0,1);
-  transition:0.25s transform;
+  transform: scale3d(0, 0, 1);
+  transition: 0.25s transform;
   transform-origin: left;
   z-index: 1;
 }
 
-.root[data-ahr].filled::before{
-  opacity: .15;
-  transform: scale3d(1,1,1);
+.root[data-ahr].filled::before {
+  opacity: 0.15;
+  transform: scale3d(1, 1, 1);
 }
 
 .sm-down .root[data-ahr].menu-active::before {
@@ -347,8 +372,8 @@ export default {
 }
 
 .sm-down .root[data-ahr]::before {
-  opacity:.15;
-  transform: scale3d(1,1,1);
+  opacity: 0.15;
+  transform: scale3d(1, 1, 1);
 }
 
 .sm-down .root[data-ahr] {
@@ -374,9 +399,8 @@ export default {
   height: 32px;
   font-size: 1rem;
   margin-right: 8px;
-  padding:0 1rem ;
+  padding: 0 1rem;
 }
-
 
 .sm-down .link[data-ahr] {
   width: 100%;
@@ -390,8 +414,8 @@ export default {
   opacity: 1;
 }
 
-.link[data-ahr].active::before{
-  opacity: .2;
+.link[data-ahr].active::before {
+  opacity: 0.2;
 }
 
 .link-title-wrap[data-ahr] {
@@ -475,7 +499,7 @@ export default {
   transform: translate3d(0, 0, 0);
 }
 
-.socials{
+.socials {
   display: grid;
   grid-auto-flow: column;
   column-gap: var(--half-x-gutter);

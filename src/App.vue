@@ -10,6 +10,7 @@ import {
   onBeforeUnmount,
   watch,
 } from "@vue/runtime-core";
+import smoothScroll from "smoothscroll-polyfill";
 import appHeader from "./components/header.vue";
 import states from "./components/utils/states";
 import { UiIcon } from "../src/components/utils/icons";
@@ -40,6 +41,8 @@ export default {
     const route = useRoute();
 
     onBeforeMount(() => {
+      smoothScroll.polyfill();
+
       const Head = document.getElementById("ui-head");
 
       head.title = Head.querySelector("#ui-meta-title");
@@ -87,23 +90,33 @@ export default {
       data.mounted = true;
       await fendui.sleep(200);
 
-
       loadingPage.classList.remove("fade-appear");
       loadingPage.classList.add("fade-disappear");
 
       loadingPage = 0;
 
-      states.appMounted = true
+      states.appMounted = true;
+
+      if (route.path === "/") {
+        const hash = route.hash;
+
+        if (route.hash) {
+          const h2 = document.querySelector(`${route.hash} > h2`);
+
+          if (h2) {
+            scrollTo({
+              top: h2.getBoundingClientRect().top + scrollY - 56,
+            });
+          }
+        }
+      }
     });
     return function () {
-
-      const isMobile = /sm|xxs|xs/.test(
-        this.$breakpoints.is
-      );
+      const isMobile = /sm|xxs|xs/.test(this.$breakpoints.is);
 
       const hideFooter = isMobile;
 
-      return  root(
+      return root(
         {
           id: "fendui",
           class: [
@@ -112,7 +125,7 @@ export default {
               "app-menu-active": states.mobileMenu,
               "hide-footer": hideFooter,
               hidden: !states.appMounted,
-              'fade-appear':states.appMounted
+              "fade-appear": states.appMounted,
             },
           ],
           onTouchstartPassive: () => {},
@@ -128,22 +141,25 @@ export default {
               //     },
               //   ],
               // }),
-              div({
-                style:{
-                  width: '100vw',
-                  height:'100vh',
-                  position:'fixed',
-                  top:'0',
-                  left:'0',
-                  filter:'blur(60px) brightness(0.45)'
-                }
-              },[
-                h(resolveComponent('UiImg'),{
-                  src: `https://res.cloudinary.com/c4benn/image/upload/q_62/v1641988245/portfolio/blob.png`,
-                  width:'100%',
-                  height:'100%'
-                })
-              ]),
+              div(
+                {
+                  style: {
+                    width: "100vw",
+                    height: "100vh",
+                    position: "fixed",
+                    top: "0",
+                    left: "0",
+                    filter: "blur(60px) brightness(0.45)",
+                  },
+                },
+                [
+                  h(resolveComponent("UiImg"), {
+                    src: `https://res.cloudinary.com/c4benn/image/upload/q_62/v1641988245/portfolio/blob.png`,
+                    width: "100%",
+                    height: "100%",
+                  }),
+                ]
+              ),
               h(resolveComponent("appHeader")),
               h(resolveComponent("router-view"), {}),
               div({
@@ -155,7 +171,7 @@ export default {
                 ],
               }),
 
-              isMobile ? h(resolveComponent('BottomNav')) : null,
+              isMobile ? h(resolveComponent("BottomNav")) : null,
 
               footer(
                 {
@@ -181,7 +197,7 @@ export default {
                       default: () =>
                         UiIcon({
                           icon: item.icon,
-                          size: 20
+                          size: 20,
                         }),
                     }
                   );
