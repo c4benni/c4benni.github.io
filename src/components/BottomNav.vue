@@ -92,7 +92,7 @@ export default defineComponent({
                     btn(
                       {
                         // tag: 'router-link',
-                        to: item.hash || undefined,
+                        to: item.hash ? `/${item.hash}` : "/",
                         class: [
                           {
                             active:
