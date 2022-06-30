@@ -186,7 +186,14 @@ export default {
                   {
                     ...scoping,
                     class: ["logo"],
-                    onClick: () => (states.mobileMenu = false),
+                    onClick: () => {
+                      states.mobileMenu = false;
+
+                      scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    },
                   },
                   [
                     h(
