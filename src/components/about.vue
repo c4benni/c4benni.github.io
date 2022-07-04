@@ -179,7 +179,7 @@ export default {
                           class: ["write-up intro"],
                         },
                         [
-                          "I am a web developer and product designer based in Lagos, Nigeria, providing quality software solutions to companies and individuals through top notch Websites and Web Apps that can be accessed on any device with a browser.",
+                          "Chidi is a web developer and product designer based in Lagos, Nigeria, who provides quality software solutions to companies and individuals through top notch Websites and Web Apps that can be accessed on any device with a browser.",
                         ]
                       ),
 
@@ -189,7 +189,7 @@ export default {
                           class: ["write-up skills"],
                         },
                         [
-                          "My core software skills ranges from, but not limited to CSS, Javascript, HTML, SQL, PostgreSQL, VueJS, Nuxt & React.",
+                         "His core software skills ranges from, but not limited to CSS, Javascript, PostgreSQL, NodeJS, VueJS, NuxtJS, React, & React Native.",
                         ]
                       ),
 
@@ -199,7 +199,7 @@ export default {
                           class: ["write-up frretime"],
                         },
                         [
-                          "With music always in my ears, you'd catch me out of the office playing video games, watching documentaries, or in a nearby gym.",
+                          "With music always in his ears, you'd catch him out of the office playing video games, watching documentaries, or in a nearby gym.",
                         ]
                       ),
                     ]

@@ -1,12 +1,18 @@
 <script>
-import { h, inject, onMounted, reactive, resolveComponent, watch } from "@vue/runtime-core";
-import states from '../src/components/utils/states';
+import {
+  h,
+  inject,
+  onMounted,
+  reactive,
+  resolveComponent,
+  watch,
+} from "@vue/runtime-core";
+import states from "../src/components/utils/states";
 
 const article = (d, c) => h("article", d, c);
 
 const div = (d, c) => h("div", d, c);
-const img = (d) => h("img", d)
-
+const img = (d) => h("img", d);
 
 const section = (d, c) => h("section", d, c);
 
@@ -17,12 +23,9 @@ const p = (d, c) => h("p", d, c);
 const span = (d, c) => h("span", d, c);
 const em = (d, c) => h("em", d, c);
 
+const HelloAnimation = () => h(resolveComponent("HelloAnimation"));
 
-
-const HelloAnimation = ()=> h(resolveComponent('HelloAnimation'))
-
-const Intersection = (d, c)=> h(resolveComponent('UiIntersection'),d,c)
-
+const Intersection = (d, c) => h(resolveComponent("UiIntersection"), d, c);
 
 const scoping = { "data-hpe": "" };
 
@@ -62,7 +65,7 @@ export default {
     });
 
     return function () {
-      const isMobile = /sm|xs|xxs/.test(this.$breakpoints.is)
+      const isMobile = /sm|xs|xxs/.test(this.$breakpoints.is);
       return article(
         {
           class: [
@@ -73,170 +76,212 @@ export default {
           ],
         },
         [
-          section({
-            class:['hello'],
-          },[
-            HelloAnimation(),
-          h3(
+          section(
             {
-              class:'name'
+              class: ["hello"],
             },
             [
-             "I'm Chidi Benedict,"
+              HelloAnimation(),
+              h3(
+                {
+                  class: "name",
+                },
+                ["I'm Chidi Benedict,"]
+              ),
+
+              h4(
+                {
+                  class: "h4",
+                },
+                [
+                  div({}, ["Javascript Developer."]),
+                  div({}, [
+                    span({}, [
+                      "Love building web apps, ",
+                      span({}, ["and"]),
+                      span({}, [" mobile apps using react native."]),
+                    ]),
+                  ]),
+                  div({}, ["Optimum performance and design fanatic."]),
+                  div({}, [em({}, ["/he|him/i"])]),
+                ]
+              ),
             ]
           ),
 
-          h4(
+          h(resolveComponent("AppMarquee")),
+
+          section(
             {
-              class:'h4'
+              class: ["about", { "fill-before": isMobile }],
+              id: "about",
             },
             [
-             div({},[ "Javascript Developer."]),
-             div({},[span({},["Love building web apps, ", span({},['and']), span({},[" mobile apps using react native."])])]),
-             div({},[ "Optimum performance and design fanatic."]),
-                          div({
-
-                          },[ em({},["/he|him/i"])]),
-
-
-            ]
-          ),
-          ]),
-
-          h(resolveComponent('AppMarquee')),
-          
-          section ({
-            class:['about',{'fill-before': isMobile}],
-            id: 'about'
-          },[
-              Intersection({},{
-                default: payload => {
-
-                  if(payload.isIntersecting){
-                    states.activeHeaderIndex = 0;
-                  }else if(payload.leaveBottom){
-                    states.activeHeaderIndex = null;
-                  }else if(payload.leaveTop){
-                    states.activeHeaderIndex = 1;
-                  }
-
-                  return div({  
-                    class:'pseudo header-tracker'
-                  },[ ]) 
-                }
-              }),
-            Intersection({
-              once: true
-            },{
-              default: payload => {
-                const reveal = payload.isIntersecting;
-
-                return h2({  
-                  class:'reveal-wrap relative'
-                },[
-                  div({
-                    class:'reveal gradient-text title',
-                    style: {
-                      opacity: reveal ? '1' : '0',
-                      transform: `translate3d(0,${reveal?'0': '.5rem'},0)`
+              Intersection(
+                {},
+                {
+                  default: (payload) => {
+                    if (payload.isIntersecting) {
+                      states.activeHeaderIndex = 0;
+                    } else if (payload.leaveBottom) {
+                      states.activeHeaderIndex = null;
+                    } else if (payload.leaveTop) {
+                      states.activeHeaderIndex = 1;
                     }
-                  },['About.'])
-                ]) 
-              }
-            }),
 
-            div({
-                class:'about-content'
-            },[
-              
-              Intersection({once:true, config: {thresholds: 0.2}},{
-                default: payload =>{
-                  const reveal = payload.isIntersecting;
-
-                  return div({
-                    class: ['img-wrap reveal-wrap',{
-                      'fill-before': isMobile
-                    }]
-                  },[
-                    img({
-                      class: ["image reveal"],
-                      style:{
-                          opacity: reveal ? '1' : '0',
-                          transform:
-                            isMobile ? `scale3d(${`${reveal ? '1' : '0.9'},`.repeat(2)}1)` :
-                            `translate3d(${reveal?'0': '-1rem'},0,0)`,
-                          transitionDelay: '100ms'
-                      },
-                      src: "https://res.cloudinary.com/c4benn/image/upload/q_91/v1641988318/portfolio/about.jpg",
-                      alt:'about image'
-                    })
-                  ])
-                }
-              }),
-
-              Intersection({once: true, config: {thresholds: 0.2}},{
-                default: payload => {
-
-                  const reveal = payload.isIntersecting;
-
-                  const translate = reveal?'0': `${isMobile? '':'-'}1.5rem`
-
-                  return div({
-                  },[
-                    div(
+                    return div(
                       {
-                        ...scoping,
-                        class: [
-                          "write-up-wrap about-main reveal",
-                          {
-                            "fill-after": isMobile,
-                          },
-                        ],
-                        style:{
-                            opacity: reveal ? '1' : '0',
-                            transform: `translate3d(${isMobile ? '0' : translate},${isMobile ? translate : '0'},0)`,
-                            transitionDelay: '200ms'
-                        },
+                        class: "pseudo header-tracker",
+                      },
+                      []
+                    );
+                  },
+                }
+              ),
+              Intersection(
+                {
+                  once: true,
+                },
+                {
+                  default: (payload) => {
+                    const reveal = payload.isIntersecting;
+
+                    return h2(
+                      {
+                        class: "reveal-wrap relative",
                       },
                       [
-                        p(
+                        div(
                           {
-                            class: ["write-up intro"],
+                            class: "reveal gradient-text title",
+                            style: {
+                              opacity: reveal ? "1" : "0",
+                              transform: `translate3d(0,${
+                                reveal ? "0" : ".5rem"
+                              },0)`,
+                            },
                           },
-                          [
-                            "I am a web developer and product designer based in Lagos, Nigeria, providing quality software solutions to companies and individuals through top notch Websites and Web Apps that can be accessed on any device with a browser.",
-                          ]
-                        ),
-
-                        p(
-                          {
-                            class: ["write-up skills"],
-                          },
-                          [
-                            "My core software skills ranges from, but not limited to CSS, Javascript, PostgreSQL, NodeJS, VueJS, NuxtJS, React, & React Native.",
-                          ]
-                        ),
-
-                        p(
-                          {
-                            class: ["write-up frretime"],
-                          },
-                          [
-                            "With music always in my ears, you'd catch me out of the office playing video games, watching documentaries, or in a nearby gym.",
-                          ]
+                          ["About."]
                         ),
                       ]
-                    )
-                  ])
+                    );
+                  },
                 }
-              }),
-            ])
-          ]),
+              ),
 
-          h(resolveComponent('ProjectPage')),
+              div(
+                {
+                  class: "about-content",
+                },
+                [
+                  Intersection(
+                    { once: true, config: { thresholds: 0.2 } },
+                    {
+                      default: (payload) => {
+                        const reveal = payload.isIntersecting;
 
-          h(resolveComponent('ReachOut'))
-       ]
+                        return div(
+                          {
+                            class: [
+                              "img-wrap reveal-wrap",
+                              {
+                                "fill-before": isMobile,
+                              },
+                            ],
+                          },
+                          [
+                            img({
+                              class: ["image reveal"],
+                              style: {
+                                opacity: reveal ? "1" : "0",
+                                transform: isMobile
+                                  ? `scale3d(${`${
+                                      reveal ? "1" : "0.9"
+                                    },`.repeat(2)}1)`
+                                  : `translate3d(${
+                                      reveal ? "0" : "-1rem"
+                                    },0,0)`,
+                                transitionDelay: "100ms",
+                              },
+                              src: "https://res.cloudinary.com/c4benn/image/upload/q_91/v1641988318/portfolio/about.jpg",
+                              alt: "about image",
+                            }),
+                          ]
+                        );
+                      },
+                    }
+                  ),
+
+                  Intersection(
+                    { once: true, config: { thresholds: 0.2 } },
+                    {
+                      default: (payload) => {
+                        const reveal = payload.isIntersecting;
+
+                        const translate = reveal
+                          ? "0"
+                          : `${isMobile ? "" : "-"}1.5rem`;
+
+                        return div({}, [
+                          div(
+                            {
+                              ...scoping,
+                              class: [
+                                "write-up-wrap about-main reveal",
+                                {
+                                  "fill-after": isMobile,
+                                },
+                              ],
+                              style: {
+                                opacity: reveal ? "1" : "0",
+                                transform: `translate3d(${
+                                  isMobile ? "0" : translate
+                                },${isMobile ? translate : "0"},0)`,
+                                transitionDelay: "200ms",
+                              },
+                            },
+                            [
+                              p(
+                                {
+                                  class: ["write-up intro"],
+                                },
+                                [
+                                  "Chidi is a web developer and product designer based in Lagos, Nigeria, who provides quality software solutions to companies and individuals through top notch Websites and Web Apps that can be accessed on any device with a browser.",
+                                ]
+                              ),
+
+                              p(
+                                {
+                                  class: ["write-up skills"],
+                                },
+                                [
+                                  "His core software skills ranges from, but not limited to CSS, Javascript, PostgreSQL, NodeJS, VueJS, NuxtJS, React, & React Native.",
+                                ]
+                              ),
+
+                              p(
+                                {
+                                  class: ["write-up frretime"],
+                                },
+                                [
+                                  "With music always in his ears, you'd catch him out of the office playing video games, watching documentaries, or in a nearby gym.",
+                                ]
+                              ),
+                            ]
+                          ),
+                        ]);
+                      },
+                    }
+                  ),
+                ]
+              ),
+            ]
+          ),
+
+          h(resolveComponent("ProjectPage")),
+
+          h(resolveComponent("ReachOut")),
+        ]
       );
     };
   },
@@ -244,49 +289,47 @@ export default {
 </script>
 
 <style scoped>
-
-.root > section{
+.root > section {
   max-width: 100vw;
   position: relative;
   padding-bottom: 48px;
   margin-top: 96px;
 }
 
-.md-up .root > section{
+.md-up .root > section {
   margin-top: 124px;
 }
 
-.root > section::before{
+.root > section::before {
   border-bottom: 0.75px solid;
-  opacity: .15;
+  opacity: 0.15;
 }
 
-
-.hello{
+.hello {
   display: grid;
   text-align: center;
   padding: 0 1rem;
 }
 
-.name{
+.name {
   margin: 1.5rem 0;
   font-size: 2.5rem;
   color: var(--body-c);
 }
 
-.h4{
+.h4 {
   line-height: 1.75;
   font-size: 1.3rem;
   font-weight: 400;
   margin-bottom: 1rem;
-  color:var(--body-c);
+  color: var(--body-c);
 }
 
-.sm-down .h4{
+.sm-down .h4 {
   font-size: 1.25rem;
 }
 
-.h4 > div:last-child{
+.h4 > div:last-child {
   color: var(--caption-c);
   line-height: 2.5;
 }
@@ -301,24 +344,24 @@ export default {
   margin-bottom: 2rem;
 }
 
-.about{
+.about {
   display: grid;
 }
 
-.about-content{
+.about-content {
   max-width: 1150px;
-  margin:1rem auto;
+  margin: 1rem auto;
   width: 100%;
   display: grid;
   position: relative;
 }
 
-.md-up .about-content{
+.md-up .about-content {
   grid-template-columns: auto 1fr;
   column-gap: 3rem;
 }
 
-.title{
+.title {
   font-size: var(--title-font-size);
   font-family: var(--header-font-family);
   font-weight: 800;
@@ -330,15 +373,15 @@ export default {
   );
 }
 
-.about-main{
+.about-main {
   margin-top: 2rem;
 }
 
-.sm-down .about-main{
+.sm-down .about-main {
   padding: 0 1.5rem;
 }
 
-.write-up  {
+.write-up {
   line-height: 1.85;
   letter-spacing: 0.5px;
   font-size: 1.05rem;
@@ -346,7 +389,7 @@ export default {
   color: var(--body-c);
 }
 
-.img-wrap{
+.img-wrap {
   height: 128px;
   width: 128px;
   border-radius: 50%;
@@ -354,24 +397,24 @@ export default {
   position: relative;
 }
 
-.image{
+.image {
   height: 100%;
   width: 100%;
   border-radius: inherit;
   object-fit: cover;
 }
 
-.sm-down .image{
+.sm-down .image {
   border: 1.5px solid var(--secondary);
 }
 
-.sm-down .img-wrap{
+.sm-down .img-wrap {
   justify-self: center;
 }
 
-.md-up .img-wrap{
-  height:400px;
-  width:400px;
+.md-up .img-wrap {
+  height: 400px;
+  width: 400px;
   border-radius: var(--ui-rounded-lg);
   position: sticky;
   top: calc(var(--header-height) + 2rem);
