@@ -584,6 +584,12 @@ export default defineComponent({
   background-color: var(--title-c);
   content: "";
   opacity: 0.15;
+  transition: opacity;
+}
+
+.is-4k .divide:before,
+.is-4k .divide::after {
+  opacity: 0;
 }
 
 .form {
