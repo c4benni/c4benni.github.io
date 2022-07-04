@@ -12,14 +12,14 @@ export default reactive({
   },
   socials: [
     {
-      title: "my twitter page",
-      href: "https://twitter.com/c4benn",
-      icon: "twitter",
-    },
-    {
       title: "my github page",
       href: "https://github.com/c4benni",
       icon: "github",
+    },
+    {
+      title: "my twitter page",
+      href: "https://twitter.com/c4benn",
+      icon: "twitter",
     },
   ],
 });
