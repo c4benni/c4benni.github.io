@@ -324,7 +324,7 @@ export default {
   position: relative;
 }
 
-.root[data-ahr] {
+.md-up .root[data-ahr] {
   position: sticky;
   top: 0;
   z-index: 10;
