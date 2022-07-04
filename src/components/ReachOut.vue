@@ -547,18 +547,6 @@ export default defineComponent({
   align-items: center;
 }
 
-.sm-up .divide-wrap::before,
-.sm-up .divide-wrap::after {
-  content: "";
-  width: 10%;
-  height: 100%;
-  display: block;
-  background-image: linear-gradient(var(--linear-dir), #000, #00000000);
-  z-index: 1;
-  pointer-events: auto;
-  transition: opacity;
-}
-
 .divide-wrap::before {
   --linear-dir: to right;
 }
@@ -585,11 +573,6 @@ export default defineComponent({
   background-color: var(--title-c);
   content: "";
   opacity: 0.15;
-}
-
-.is-4k .divide-wrap:before,
-.is-4k .divide-wrap::after {
-  opacity: 0;
 }
 
 .form {
