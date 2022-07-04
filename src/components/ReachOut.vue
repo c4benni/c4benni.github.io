@@ -556,6 +556,7 @@ export default defineComponent({
   background-image: linear-gradient(var(--linear-dir), #000, #00000000);
   z-index: 1;
   pointer-events: auto;
+  transition: opacity;
 }
 
 .divide-wrap::before {
@@ -577,18 +578,17 @@ export default defineComponent({
   width: 100%;
 }
 
-.divide:before,
+.divide::before,
 .divide::after {
   width: 100%;
   height: 1px;
   background-color: var(--title-c);
   content: "";
   opacity: 0.15;
-  transition: opacity;
 }
 
-.is-4k .divide:before,
-.is-4k .divide::after {
+.is-4k .divide-wrap:before,
+.is-4k .divide-wrap::after {
   opacity: 0;
 }
 
