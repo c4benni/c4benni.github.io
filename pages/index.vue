@@ -294,6 +294,7 @@ export default {
   position: relative;
   padding-bottom: 48px;
   margin-top: 96px;
+  padding: var(--qtr-x-gutter) var(--x-gutter);
 }
 
 .md-up .root > section {
@@ -395,6 +396,10 @@ export default {
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+}
+
+.md-up .img-wrap {
+  box-shadow: 0px 14px 22px rgb(0 0 0 / 40%);
 }
 
 .image {
