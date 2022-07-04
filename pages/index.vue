@@ -292,9 +292,9 @@ export default {
 .root > section {
   max-width: 100vw;
   position: relative;
+  padding: var(--qtr-x-gutter) var(--x-gutter);
   padding-bottom: 48px;
   margin-top: 96px;
-  padding: var(--qtr-x-gutter) var(--x-gutter);
 }
 
 .md-up .root > section {
