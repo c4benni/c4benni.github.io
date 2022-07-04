@@ -324,10 +324,10 @@ export default {
   position: relative;
 }
 
-.md-up .root[data-ahr] {
+.root[data-ahr] {
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: 10;
 }
 
 .fill-obs[data-ahr] {
