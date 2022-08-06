@@ -210,7 +210,7 @@ export default {
 
 <style>
 .ui-btn {
-  --ui-height: 48px;
+  --ui-height: 56px;
   --ui-padding: 0px 20px;
   --ui-font: normal 500 1.25rem var(--default-font-family);
   --ui-radius: var(--ui-rounded);
@@ -351,7 +351,7 @@ export default {
 
 .ui-btn.__outlined.focus-visible:after,
 .ui-btn.__outlined:focus-visible:after,
-.ui-btn[tabindex="-1"].__outlined:focus-within:after {
+.ui-btn[tabindex="-1"].__outlined:focus-visible:after {
   opacity: var(--t-caption);
 }
 
@@ -360,11 +360,11 @@ export default {
     opacity: 0.15;
   }
 
-  .ui-btn[focus-within]:before {
+  .ui-btn[focus-visible]:before {
     opacity: 0.25;
   }
 
-  .ui-btn:focus-within:before {
+  .ui-btn:focus-visible:before {
     opacity: 0.2;
   }
 
