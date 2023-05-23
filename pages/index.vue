@@ -21,7 +21,6 @@ const h3 = (d, c) => h("h3", d, c);
 const h4 = (d, c) => h("h4", d, c);
 const p = (d, c) => h("p", d, c);
 const span = (d, c) => h("span", d, c);
-const em = (d, c) => h("em", d, c);
 
 const HelloAnimation = () => h(resolveComponent("HelloAnimation"));
 
@@ -103,7 +102,7 @@ export default {
                     ]),
                   ]),
                   div({}, ["Optimum performance and design fanatic."]),
-                  div({}, [em({}, ["/he|him/i"])]),
+                  div({}, [span({ class: "text-monospace" }, ["/he|him/i"])]),
                 ]
               ),
             ]
@@ -423,5 +422,9 @@ export default {
   border-radius: var(--ui-rounded-lg);
   position: sticky;
   top: calc(var(--header-height) + 2rem);
+}
+
+.text-monospace {
+  font-family: monospace;
 }
 </style>
