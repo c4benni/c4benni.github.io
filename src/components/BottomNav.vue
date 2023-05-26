@@ -176,6 +176,8 @@ export default defineComponent({
 <style scoped>
 .root {
   --ui-rounded: 1rem;
+  --dot-size: 4px;
+
   height: 64px;
   min-width: 280px;
   width: calc(100% - 4rem);
@@ -186,13 +188,23 @@ export default defineComponent({
   transform: translateX(-50%);
   border-radius: var(--ui-rounded);
   z-index: 99;
-  background-color: rgba(26, 26, 26, 0.9875);
-  --dot-size: 4px;
+  background-color: #1a1a1a;
 }
 
 .root:before {
   border: 0.5px solid;
   opacity: 0.1;
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .root {
+    background-color: #1a1a1a96 !important;
+    backdrop-filter: blur(21px) saturate(1.5);
+  }
+
+  .root:before {
+    opacity: 0.2;
+  }
 }
 
 .br-sm.or-la .root {
