@@ -151,12 +151,14 @@ export default {
                     left: "0",
                     filter: "blur(60px) brightness(0.45)",
                   },
+                  class: "blob-img-wrap",
                 },
                 [
                   h(resolveComponent("UiImg"), {
                     src: `https://res.cloudinary.com/c4benn/image/upload/q_62/v1641988245/portfolio/blob.png`,
                     width: "100%",
                     height: "100%",
+                    class: "blog-img",
                   }),
                 ]
               ),
@@ -301,6 +303,24 @@ export default {
 
 .header-gradient.app-menu-active::before {
   opacity: 1;
+}
+
+@keyframes rotateImg {
+  from {
+    transform: rotate(0deg) scale3d(1, 1, 1);
+  }
+  to {
+    transform: rotate(1turn) scale3d(1.15, 1.15, 1);
+  }
+}
+
+.blob-img-wrap > .blob-img {
+  animation-name: rotateImg;
+  animation-duration: 70s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: both;
 }
 
 .app-footer {
