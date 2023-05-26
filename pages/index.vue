@@ -419,7 +419,7 @@ export default {
 .md-up .img-wrap {
   height: 400px;
   width: 400px;
-  border-radius: var(--ui-rounded-lg);
+  border-radius: 999px;
   position: sticky;
   top: calc(var(--header-height) + 2rem);
 }
