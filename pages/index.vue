@@ -94,13 +94,13 @@ export default {
                 },
                 [
                   div({}, ["Javascript Developer."]),
-                  div({}, [
-                    span({}, [
-                      "Love building web apps, ",
-                      span({}, ["and"]),
-                      span({}, [" mobile apps using react native."]),
-                    ]),
-                  ]),
+                  // div({}, [
+                  //   span({}, [
+                  //     "Love building web apps, ",
+                  //     span({}, ["and"]),
+                  //     span({}, [" mobile apps using react native."]),
+                  //   ]),
+                  // ]),
                   div({}, ["Optimum performance and design fanatic."]),
                   div({}, [span({ class: "text-monospace" }, ["/he|him/i"])]),
                 ]
