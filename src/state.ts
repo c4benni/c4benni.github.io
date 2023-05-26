@@ -10,9 +10,9 @@ function shuffleArray(array: any[]) {
 
 export function getGreeting() {
   const output = [
+    "Hellur",
     "Hallo",
     "Olá",
-    "Amedi",
     "Ciao",
     "こんにちは",
     "Hola",
@@ -36,7 +36,6 @@ export function getGreeting() {
     "ສະບາຍດີ",
     "Ahoj",
     "안녕하세요",
-    "Pẹlẹ o",
     "नमस्ते",
     "Slav",
     "שלום",
@@ -57,7 +56,8 @@ export function getGreeting() {
     "Bonjour",
     "Kon'nichiwa",
     "Nnọọ",
-    "Hellur",
+    "Amedi",
+    "Pẹlẹ o",
     ...shuffleArray(output),
   ];
 }
