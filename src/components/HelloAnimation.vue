@@ -218,6 +218,7 @@ export default defineComponent({
   max-width: 100vw;
   overflow: hidden;
   position: relative;
+  margin-bottom: 1rem;
 }
 
 /* .sm-down .root{
