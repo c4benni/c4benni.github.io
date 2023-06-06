@@ -360,13 +360,13 @@ export default {
   /* backdrop-filter: var(--header-backdrop-filter); */
 }
 
-@supports (backdrop-filter: blur(1px)) {
+/* @supports (backdrop-filter: blur(1px)) {
   .root[data-ahr].filled {
     background-image: none;
     background-color: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(21px) saturate(1.5);
   }
-}
+} */
 
 .root[data-ahr]::before {
   border-bottom: 0.5px solid;
