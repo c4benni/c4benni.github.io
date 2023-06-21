@@ -202,10 +202,10 @@ export default {
 
 .can-hover .root-wrap[data-pm]:hover {
   transform: translateY(-4px) scale(1.05) translateZ(0);
+}
 
-  &::after {
-    box-shadow: 0 25px 50px -12px #000;
-  }
+.can-hover .root-wrap[data-pm]:hover::after {
+  box-shadow: 0 25px 50px -12px #000;
 }
 
 .can-hover .root[data-pm]:hover::after {
