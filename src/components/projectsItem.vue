@@ -45,117 +45,136 @@ export default {
   },
 
   setup() {
-
     return function () {
       const largeDevice = /md|lg|xl/.test(this.$breakpoints.is);
 
-      const imageHeight=  /sm|xs|xxs/.test(this.$breakpoints.is)
-                ? this.$breakpoints.is == "sm"
-                  ? "280px"
-                  : "220px"
-                : "320px"
+      const imageHeight = /sm|xs|xxs/.test(this.$breakpoints.is)
+        ? this.$breakpoints.is == "sm"
+          ? "280px"
+          : "220px"
+        : "320px";
 
-  const images = this.images.map((image, i) => {
-    if(!largeDevice && i!=0){return null}
-
-              return img({
-              ...scoping,
-              class: ["image",{
-                'hover-image':i==1
-              }],
-              height: imageHeight,
-              width: "100%",
-              ...image,
-            })
-            })
-
-      return Intersection({once: true, config:{thresholds: 0.2}},{
-        default: payload =>{
-          const reveal = payload.isIntersecting;
-
-          return div({
-            ...scoping,
-            class: 'root-wrap'
-          },[
-            btn(
-                {
-                  tag: "a",
-                  ...scoping,
-                  "aria-label": this.ariaLabel,
-                  class: ["root reveal"],
-                  href: this.to,
-                  title: `open ${this.title} in a new tab`,
-                  rel: "noopener noreferrer",
-                  target: "_blank",
-                  outlined: largeDevice,
-                  outlineConfig: {
-                    opacity: 0.1,
-                  },
-                  style:{
-                      opacity: reveal ? '1' : '0',
-                      transform: `translate3d(0,${reveal?'0': '1.5rem'},0)`,
-                      transitionDelay: '150ms'
-                  },
-                },
-                {
-                  default: () => [
-                    largeDevice ? div({
-                      ...scoping,
-                      class:'image-blur-wrap'
-                    },[
-                      div({
-                      ...scoping,
-                      class:'image-blur'
-                    })
-                    ]):null,
-
-                    largeDevice?
-                    div({
-                      ...scoping,
-                      class:['image-wrap'],
-                      style:{
-                        height:imageHeight
-                      }
-                    },[images]):images,
-
-                    div(
-                      {
-                        ...scoping,
-                        class: ["info fill-before"],
-                      },
-                      [
-                        largeDevice
-                          ? div(
-                              {
-                                ...scoping,
-                                class: ["date"],
-                              },
-                              this.date
-                            )
-                          : null,
-                        h2(
-                          {
-                            ...scoping,
-                            class: ["title"],
-                          },
-                          this.title
-                        ),
-
-                        h3(
-                          {
-                            ...scoping,
-                            class: ["subtitle truncate-text"],
-                          },
-                          this.subtitle
-                        ),
-                      ]
-                    ),
-                  ],
-                }
-              )
-          ])
+      const images = this.images.map((image, i) => {
+        if (!largeDevice && i != 0) {
+          return null;
         }
-      })
+
+        return img({
+          ...scoping,
+          class: [
+            "image",
+            {
+              "hover-image": i == 1,
+            },
+          ],
+          height: imageHeight,
+          width: "100%",
+          ...image,
+        });
+      });
+
+      return Intersection(
+        { once: true, config: { thresholds: 0.2 } },
+        {
+          default: (payload) => {
+            const reveal = payload.isIntersecting;
+
+            return div(
+              {
+                ...scoping,
+                class: "root-wrap",
+              },
+              [
+                btn(
+                  {
+                    tag: "a",
+                    ...scoping,
+                    "aria-label": this.ariaLabel,
+                    class: ["root reveal"],
+                    href: this.to,
+                    title: `open ${this.title} in a new tab`,
+                    rel: "noopener noreferrer",
+                    target: "_blank",
+                    outlined: largeDevice,
+                    outlineConfig: {
+                      opacity: 0.1,
+                    },
+                    style: {
+                      opacity: reveal ? "1" : "0",
+                      transform: `translate3d(0,${reveal ? "0" : "1.5rem"},0)`,
+                      transitionDelay: "150ms",
+                    },
+                  },
+                  {
+                    default: () => [
+                      largeDevice
+                        ? div(
+                            {
+                              ...scoping,
+                              class: "image-blur-wrap",
+                            },
+                            [
+                              div({
+                                ...scoping,
+                                class: "image-blur",
+                              }),
+                            ]
+                          )
+                        : null,
+
+                      largeDevice
+                        ? div(
+                            {
+                              ...scoping,
+                              class: ["image-wrap"],
+                              style: {
+                                height: imageHeight,
+                              },
+                            },
+                            [images]
+                          )
+                        : images,
+
+                      div(
+                        {
+                          ...scoping,
+                          class: ["info fill-before"],
+                        },
+                        [
+                          largeDevice
+                            ? div(
+                                {
+                                  ...scoping,
+                                  class: ["date"],
+                                },
+                                this.date
+                              )
+                            : null,
+                          h2(
+                            {
+                              ...scoping,
+                              class: ["title"],
+                            },
+                            this.title
+                          ),
+
+                          h3(
+                            {
+                              ...scoping,
+                              class: ["subtitle truncate-text"],
+                            },
+                            this.subtitle
+                          ),
+                        ]
+                      ),
+                    ],
+                  }
+                ),
+              ]
+            );
+          },
+        }
+      );
     };
   },
 };
@@ -177,40 +196,44 @@ export default {
   overflow: visible;
 }
 
-.root-wrap[data-pm]{
-  transition: .25s transform;
+.root-wrap[data-pm] {
+  transition: 0.25s transform;
 }
 
-.can-hover .root-wrap[data-pm]:hover{
-  transform: translate3d(0, -4px, 0) ;
+.can-hover .root-wrap[data-pm]:hover {
+  transform: translateY(-4px) scale(1.05) translateZ(0);
+
+  &::after {
+    box-shadow: 0 25px 50px -12px #000;
+  }
 }
 
-.can-hover .root[data-pm]:hover::after{
+.can-hover .root[data-pm]:hover::after {
   opacity: 1;
   background: transparent;
 }
 
 .root[data-pm]::before,
-.root[data-pm]::after{
+.root[data-pm]::after {
   opacity: 0;
   transition: opacity 0.25s;
   border: none !important;
   z-index: -1;
 }
 
-.root[data-pm]::after{
+.root[data-pm]::after {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
-.dark-theme .root[data-pm]::before{
+.dark-theme .root[data-pm]::before {
   background: rgba(26, 26, 88, 0.6);
 }
 
-.dark-theme.can-hover .root[data-pm]:hover::before{
-  opacity: .5;
+.dark-theme.can-hover .root[data-pm]:hover::before {
+  opacity: 0.5;
 }
 
-.dark-theme .root[data-pm]::after{
+.dark-theme .root[data-pm]::after {
   box-shadow: 0 25px 50px -12px rgba(17, 17, 119, 0.4);
 }
 
@@ -226,12 +249,12 @@ export default {
   visibility: hidden;
 }
 
-.image-wrap[data-pm]{
-  position:relative;
-    border-top-left-radius: inherit;
+.image-wrap[data-pm] {
+  position: relative;
+  border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   overflow: hidden;
-  width:100%
+  width: 100%;
 }
 
 .image[data-pm] {
@@ -239,35 +262,31 @@ export default {
   object-position: left;
 }
 
-
-
-.md-up .image[data-pm]{
-    position: absolute;
+.md-up .image[data-pm] {
+  position: absolute;
   left: 0;
-  top: 0;  
+  top: 0;
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }
 
-.md-up .image[data-pm].hover-image{
+.md-up .image[data-pm].hover-image {
   opacity: 0;
-  transform:translate3d(-8px, 0,0);
+  transform: translate3d(-8px, 0, 0);
 }
 
-.md-up.can-hover .root[data-pm]:hover .image[data-pm]{
-  opacity: .75;
-  transform: translate3d(8px,0,0);
+.md-up.can-hover .root[data-pm]:hover .image[data-pm] {
+  opacity: 0.75;
+  transform: translate3d(8px, 0, 0);
 }
 
-
-.md-up.can-hover .root[data-pm]:hover .image[data-pm].hover-image{
+.md-up.can-hover .root[data-pm]:hover .image[data-pm].hover-image {
   opacity: 1;
-  transform:translate3d(0,0,0);
+  transform: translate3d(0, 0, 0);
 }
-
 
 .image-blur-wrap[data-pm],
-.image-blur[data-pm]{
+.image-blur[data-pm] {
   position: absolute;
   left: 0;
   top: 0;
@@ -275,20 +294,20 @@ export default {
   width: 100%;
 }
 
-.image-blur-wrap[data-pm]{
+.image-blur-wrap[data-pm] {
   z-index: -1;
   overflow: hidden;
   isolation: isolate;
   opacity: 0;
-  transition: .5s opacity;
+  transition: 0.5s opacity;
   border-radius: inherit;
 }
 
-.can-hover .root[data-pm]:hover .image-blur-wrap[data-pm]{
+.can-hover .root[data-pm]:hover .image-blur-wrap[data-pm] {
   opacity: 1;
 }
 
-.image-blur[data-pm]{
+.image-blur[data-pm] {
   filter: blur(100px) saturate(2);
   background-image: url("https://res.cloudinary.com/c4benn/image/upload/v1641483094/portfolio/sunset4_yc3q0v.jpg");
 }
@@ -308,7 +327,7 @@ export default {
 }
 
 .info[data-pm] {
-  padding: .75rem 1rem var(--x-gutter);
+  padding: 0.75rem 1rem var(--x-gutter);
   width: 100%;
   text-align: left;
   line-height: 1;
@@ -333,12 +352,12 @@ export default {
   font-size: 1rem;
 }
 
-.title[data-pm]{
+.title[data-pm] {
   font-weight: 600;
   font-size: 1.25rem;
 }
 
-.md-up .title[data-pm]{
+.md-up .title[data-pm] {
   font-weight: 500;
   font-size: 1.5rem;
 }
