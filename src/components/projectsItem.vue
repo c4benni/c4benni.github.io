@@ -205,7 +205,7 @@ export default {
   transform: translateY(-4px) scale(1.05) translateZ(0);
 }
 
-.can-hover .root-wrap[data-pm] > a::after:hover {
+.can-hover .root-wrap[data-pm] > a:hover::after {
   box-shadow: 0 25px 50px -12px #000 !important;
 }
 
