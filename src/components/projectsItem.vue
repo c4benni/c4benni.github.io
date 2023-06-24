@@ -198,6 +198,7 @@ export default {
 
 .root-wrap[data-pm] {
   transition: 0.25s transform;
+  transform-origin: bottom;
 }
 
 .can-hover .root-wrap[data-pm]:hover {
