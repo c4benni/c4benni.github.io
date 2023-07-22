@@ -318,7 +318,7 @@ export default {
 }
 
 .input[data-uit]:focus::placeholder{
-  opacity: 1;
+  opacity: 0.65;
 }
 
 .input[data-uit] {
