@@ -161,12 +161,6 @@ export default defineComponent({
                 [
                   [
                     {
-                      text: "Send a DM",
-                      icon: "twitter",
-                      title: "message me on twitter",
-                      href: "https://twitter.com/messages/compose?recipient_id=822332088&text=Hi!",
-                    },
-                    {
                       text: "Send an Email",
                       icon: "email",
                       href: `mailto:c4benni@gmail.com`,
@@ -527,8 +521,7 @@ export default defineComponent({
 
 .dm {
   background-color: transparent;
-  grid-auto-flow: row;
-  row-gap: 0.5rem;
+  gap: 0.75rem;
   border-radius: 18px;
   margin: calc(var(--x-gutter) * 1.5) auto;
   height: 96px;
